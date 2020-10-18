@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+resources:
+- base/
+
+patchesStrategicMerge:
+- 99-nfs-resources-patch.yaml
+- 99-nfs-volume-patch.yaml
+- 99-wordpress-env-patch.yaml
+- 99-wordpress-replicas-patch.yaml
+
+configMapGenerator:
+- name: nfs-server-config
+  files:
+  - conf/exports
+
+secretGenerator:
+- name: wordpress-credentials
+  envs:
+  - env/wordpress.env
+  type: Opaque
