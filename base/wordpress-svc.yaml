@@ -3,14 +3,14 @@ kind: Service
 metadata:
   labels:
     app: wordpress
+    tier: frontend
   name: wordpress
 spec:
   ports:
-  - nodePort: 31639
-    port: 80
+  - port: 80
     protocol: TCP
     targetPort: 80
   selector:
     app: wordpress
-
+    tier: frontend
 

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nfs-server
+spec:
+  template:
+    spec:
+      containers:
+      - name: nfs-server
+        volumeMounts:
+          - mountPath: /data/wordpress
+            name: data-wordpress
+          - mountPath: /etc/exports
+            name: exports-conf
+            subPath: exports
+      volumes:
+        # From an existing GCE Persistent Disk
+        - name: data-wordpress
+          gcePersistentDisk:
+            pdName: <EXISTING_GCE_PERSISTENT_DISK>
+        - name: exports-conf
+          configMap:
+            name: nfs-server-config
+            items:
+            - key: exports
+              path: exports

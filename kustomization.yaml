@@ -9,7 +9,9 @@ resources:
 
 patchesStrategicMerge:
 - 99-nfs-resources-patch.yaml
-- 99-nfs-volume-patch.yaml
+# - 99-nfs-volume-aws-ebs-patch.yaml
+# - 99-nfs-volume-gce-pd-patch.yaml
+- 99-nfs-volume-pvc-patch.yaml
 - 99-wordpress-env-patch.yaml
 - 99-wordpress-replicas-patch.yaml
 

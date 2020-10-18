@@ -9,22 +9,23 @@ spec:
       - name: nfs-server
         volumeMounts:
           - mountPath: /data/wordpress
-            name: nfs-wp-pvc
+            name: data-wordpress
           - mountPath: /etc/exports
             name: exports-conf
             subPath: exports
       volumes:
-        # From an existing GCE Persistent Disk
-        - name: nfs-wp-pvc
-          gcePersistentDisk:
-            pdName: <EXISTING_GCE_PERSISTENT_DISK>
-        # Create a new one of GCE Persistent Disk
-        # - name: nfs-wp-pvc
-        #   persistentVolumeClaim:
-        #     claimName: wp-pvc
         - name: exports-conf
           configMap:
             name: nfs-server-config
             items:
             - key: exports
               path: exports
+  volumeClaimTemplates:
+  # Create a PV from default storageclass
+  - metadata:
+      name: data-wordpress
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 20Gi

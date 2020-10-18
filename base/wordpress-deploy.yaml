@@ -3,18 +3,21 @@ kind: Deployment
 metadata:
   labels:
     app: wordpress
+    tier: frontend
   name: wordpress
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: wordpress
+      tier: frontend
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
         app: wordpress
+        tier: frontend
     spec:
       containers:
       - image: wordpress:php7.4-apache
